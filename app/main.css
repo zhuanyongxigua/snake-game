@@ -1,0 +1,19 @@
+#div1 {
+    width: 600px;
+    height: 600px;
+    border: solid 2px red;
+    left: 50%;
+    top: 50%;
+    margin-left: -300px;
+    margin-top: -300px;
+    position: absolute;
+}
+
+#div2 {
+    width: 20px;
+    height: 20px;
+    background: green;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
