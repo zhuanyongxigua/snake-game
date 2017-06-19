@@ -1,7 +1,10 @@
 import './main.css';
 var _this = null; //发现这里如果不在全局声明的话，在定时器函数中无法使用。
-document.onkeydown = function() {
-    new fnAttribute();
+window.onload = function() {
+    var obj = new fnAttribute();
+    document.onkeydown = function() {
+        obj.startMove();
+    }
 }
 
 function fnAttribute() { //构造函数
@@ -11,9 +14,7 @@ function fnAttribute() { //构造函数
     this.oMove.setAttribute("id", "div2");
     this.oMove.setAttribute("style", "width:18px;height:18px;background:green;position:absolute;");
     document.getElementById("15r5c").appendChild(this.oMove);
-    this.keycode = event.keyCode;
-    console.log(this.keycode);
-    this.speed = 1;
+    this.vTimeInterval = 500;
     this.timer = null;
     this.startMove();
 }
@@ -30,35 +31,42 @@ fnAttribute.prototype.setBack = function() { //把区域分成一个一个的小
 }
 
 fnAttribute.prototype.startMove = function() {
+    _this.fnMakeFood();
+    this.keycode = event.keyCode;
     switch (this.keycode) {
         case 38:
             clearInterval(this.timer);
             this.timer = setInterval(function() {
-                _this.fnMoveup()
-            }, 1000)
+                _this.fnMoveup();
+            }, this.vTimeInterval)
+            _this.fnMoveup(); //由于setInterval是每次在设定时间之后才执行第一次操作，所以，每次按方向键换方向的时候都会有一个停顿。所以在setInterval之外来单独执行一下。
             break;
         case 40:
             clearInterval(this.timer);
             this.timer = setInterval(function() {
-                _this.fnMovedown()
-            }, 1000)
+                _this.fnMovedown();
+            }, this.vTimeInterval)
+            _this.fnMovedown();
             break;
         case 37:
             clearInterval(this.timer);
             this.timer = setInterval(function() {
-                _this.fnMoveleft()
-            }, 1000)
+                _this.fnMoveleft();
+            }, this.vTimeInterval)
+            _this.fnMoveleft();
             break;
         case 39:
             clearInterval(this.timer);
             this.timer = setInterval(function() {
-                _this.fnMoveright()
-            }, 1000)
+                _this.fnMoveright();
+            }, this.vTimeInterval)
+            _this.fnMoveright();
             break;
         case 17:
             clearInterval(this.timer);
             break;
     }
+
 }
 fnAttribute.prototype.fnMoveup = function() { //上下运动，取第二位的字符转化为数字，如果为数字，则后面造字符串的时候从第二位开始，否则从第一位开始。
     var nIf = parseInt((this.oMove.parentNode.id).slice(1, 2));
@@ -123,4 +131,15 @@ fnAttribute.prototype.fnMoveright = function() {
     }
     this.oMove.parentNode.removeChild(this.oMove);
     document.getElementById(sLeftDivId).appendChild(this.oMove);
+}
+fnAttribute.prototype.fnMakeFood = function() {
+    if (document.getElementById("fooddiv") == null) {
+        var i = Math.round(Math.random() * 30 - 1);
+        var j = Math.round(Math.random() * 30 - 1);
+        var id = i + "r" + j + "c";
+        var oFoodDiv = document.createElement("div");
+        oFoodDiv.setAttribute("id", "fooddiv");
+        oFoodDiv.setAttribute("style", "width:18px;height:18px;background:green;position:absolute;");
+        document.getElementById(id).appendChild(oFoodDiv);
+    }
 }
