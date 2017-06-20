@@ -16,10 +16,11 @@ function fnAttribute() { //构造函数
     this.aSnake = [];
     this.aSnake.push(2);
     this.sPreParentId = null;
-    this.vTimeInterval = 500;
+    this.vTimeInterval = 600;
     this.timer = null;
     this.startMove();
     this.keycode = null;
+    this.sNewDivId = null;
 }
 
 fnAttribute.prototype.setBack = function() { //把区域分成一个一个的小方块。
@@ -79,90 +80,113 @@ fnAttribute.prototype.startMove = function() {
     }
 }
 fnAttribute.prototype.fnMoveup = function() { //上下运动，取第二位的字符转化为数字，如果为数字，则后面造字符串的时候从第二位开始，否则从第一位开始。
-    var oNowDiv = document.getElementById("div" + this.aSnake[0]);
+    var oNowDiv = document.getElementById("div2");
     this.sPreParentId = oNowDiv.parentNode.id;
     var nIf = parseInt(this.sPreParentId.slice(1, 2));
     if (isNaN(nIf)) {
         if (parseInt(this.sPreParentId.slice(0, 1)) == 0) { //判断是否到达边界
-            clearInterval(timer);
+            clearInterval(this.timer);
+            alert("撞到墙壁啦");
+            window.location.reload();
         } else {
-            var sUpDivId = parseInt(this.sPreParentId) - 1 + (this.sPreParentId).slice(1);
+            this.sNewDivId = parseInt(this.sPreParentId) - 1 + (this.sPreParentId).slice(1);
         }
     } else {
-        var sUpDivId = parseInt(this.sPreParentId) - 1 + (this.sPreParentId).slice(2);
+        this.sNewDivId = parseInt(this.sPreParentId) - 1 + (this.sPreParentId).slice(2);
     }
     oNowDiv.parentNode.removeChild(oNowDiv); //方块运动的方法，在原方块中删除绿色方块，在下一个方块中创建绿色方块。
-    document.getElementById(sUpDivId).appendChild(oNowDiv);
+    document.getElementById(this.sNewDivId).appendChild(oNowDiv);
     _this.fnEatFood();
     _this.fnFollowDiv();
+    _this.fnFailAlert();
 }
 
 fnAttribute.prototype.fnMovedown = function() { //上下运动，取第二位的字符转化为数字，如果为数字，则后面造字符串的时候从第二位开始，否则从第一位开始。
-    var oNowDiv = document.getElementById("div" + this.aSnake[0]);
+    var oNowDiv = document.getElementById("div2");
     this.sPreParentId = oNowDiv.parentNode.id;
     var nIf = parseInt(this.sPreParentId.slice(1, 2));
     if (isNaN(nIf)) {
-        var sUpDivId = parseInt(this.sPreParentId) + 1 + (this.sPreParentId).slice(1);
+        this.sNewDivId = parseInt(this.sPreParentId) + 1 + (this.sPreParentId).slice(1);
     } else {
         if (this.sPreParentId.slice(0, 2) == 29) { //向下运动的撞墙的判断。
-            clearInterval(timer);
+            clearInterval(this.timer);
+            alert("撞到墙壁啦");
+            window.location.reload();
         } else {
-            var sUpDivId = parseInt(this.sPreParentId) + 1 + (this.sPreParentId).slice(2);
+            this.sNewDivId = parseInt(this.sPreParentId) + 1 + (this.sPreParentId).slice(2);
         }
 
     }
     oNowDiv.parentNode.removeChild(oNowDiv);
-    document.getElementById(sUpDivId).appendChild(oNowDiv);
+    document.getElementById(this.sNewDivId).appendChild(oNowDiv);
     _this.fnEatFood();
     _this.fnFollowDiv();
+    _this.fnFailAlert();
 }
 
 fnAttribute.prototype.fnMoveleft = function() {
-    var oNowDiv = document.getElementById("div" + this.aSnake[0]);
+    var oNowDiv = document.getElementById("div2");
     this.sPreParentId = oNowDiv.parentNode.id;
     var nIf = this.sPreParentId.slice(-2, -1); //倒数第二位赋值给nIf
     if (nIf == 0) { //判断倒数第二位是否为零。如果为0，则要继续判断是10还是20。如果这里不做特殊的处理，0减1会变成-1。
         if (isNaN(this.sPreParentId.slice(-3, -2))) { //如何是字母，就会返回NaN，那就是到头了。
-            clearInterval(timer);
+            clearInterval(this.timer);
+            alert("撞到墙壁啦");
+            window.location.reload();
         } else if (this.sPreParentId.slice(-3, -2) == 1) { //判断倒数第三位是否为1。为1就是10了，不为1就是20，因为最大的数字就是29，所以没有其他的可能了。
-            var sLeftDivId = this.sPreParentId.slice(-7, -3) + 9 + "c"; //是10，不要正常的减1的方法了，直接手动变成9.
+            this.sNewDivId = this.sPreParentId.slice(-7, -3) + 9 + "c"; //是10，不要正常的减1的方法了，直接手动变成9.
         } else {
-            var sLeftDivId = this.sPreParentId.slice(-7, -3) + 19 + "c"; //是20，不要正常的减1的方法了，直接手动变成19.
+            this.sNewDivId = this.sPreParentId.slice(-7, -3) + 19 + "c"; //是20，不要正常的减1的方法了，直接手动变成19.
         }
     } else {
-        var sLeftDivId = this.sPreParentId.slice(-7, -2) + (nIf - 1) + "c"; //正常的减1的方法。
+        this.sNewDivId = this.sPreParentId.slice(-7, -2) + (nIf - 1) + "c"; //正常的减1的方法。
     }
     oNowDiv.parentNode.removeChild(oNowDiv);
-    document.getElementById(sLeftDivId).appendChild(oNowDiv);
+    document.getElementById(this.sNewDivId).appendChild(oNowDiv);
     _this.fnEatFood();
     _this.fnFollowDiv();
+    _this.fnFailAlert();
 }
 
 fnAttribute.prototype.fnMoveright = function() {
-    var oNowDiv = document.getElementById("div" + this.aSnake[0]);
+    var oNowDiv = document.getElementById("div2");
     this.sPreParentId = oNowDiv.parentNode.id;
     var nIf = parseInt(this.sPreParentId.slice(-2, -1)); //这里与上面向左的运动有区别。向左是减法，向右是加法。这里如果不转化成数字，返回的是"5"，而”5“ + 1返回的是”51“。减法就不会出现这样的情况。原因是减法会产生隐式转换。所以这里需要把取出来的东西转换成数字。
     if (nIf == 9) {
         if (this.sPreParentId.slice(-3, -2) == 2) { //如果等于2，就说明到头了。
-            clearInterval(timer);
+            clearInterval(this.timer);
+            alert("撞到墙壁啦");
+            window.location.reload();
         } else if (this.sPreParentId.slice(-3, -2) == "r") { //不是数字，或者等于"r"，说明是1位到2位的转变，直接手动加10.
-            var sLeftDivId = this.sPreParentId.slice(-7, -2) + 10 + "c";
+            this.sNewDivId = this.sPreParentId.slice(-7, -2) + 10 + "c";
         } else {
-            var sLeftDivId = this.sPreParentId.slice(-7, -3) + 20 + "c"; //因为最大是29，所有只有这一种19到20的转变了，不需要判断了。
+            this.sNewDivId = this.sPreParentId.slice(-7, -3) + 20 + "c"; //因为最大是29，所有只有这一种19到20的转变了，不需要判断了。
         }
     } else {
-        var sLeftDivId = this.sPreParentId.slice(-7, -2) + (nIf + 1) + "c";
+        this.sNewDivId = this.sPreParentId.slice(-7, -2) + (nIf + 1) + "c";
     }
     oNowDiv.parentNode.removeChild(oNowDiv);
-    document.getElementById(sLeftDivId).appendChild(oNowDiv);
+    document.getElementById(this.sNewDivId).appendChild(oNowDiv);
     _this.fnEatFood();
     _this.fnFollowDiv();
+    _this.fnFailAlert();
 }
 fnAttribute.prototype.fnMakeFood = function() {
     if (document.getElementById("fooddiv") == null) {
         var i = Math.round(Math.random() * 30 - 1);
         var j = Math.round(Math.random() * 30 - 1);
         var id = i + "r" + j + "c";
+        for (var k = 0; k < this.aSnake.length;) { //判断新生成的食物是否在蛇的身体里，如果在，则重新生成。
+            if (id == document.getElementById("div" + this.aSnake[k]).parentNode.id) {
+                i = Math.round(Math.random() * 30 - 1);
+                j = Math.round(Math.random() * 30 - 1);
+                id = i + "r" + j + "c";
+                k = 0;
+                continue;
+            } else {
+                k++;
+            }
+        }
         var oFoodDiv = document.createElement("div");
         oFoodDiv.setAttribute("id", "fooddiv");
         oFoodDiv.setAttribute("style", "width:18px;height:18px;background:green;position:absolute;");
@@ -172,17 +196,20 @@ fnAttribute.prototype.fnMakeFood = function() {
 fnAttribute.prototype.fnEatFood = function() { //吃食物的函数，如果蛇头和食物的父div的id相同，则删除当前的食物。
     if (document.getElementById("div2").parentNode.id == document.getElementById("fooddiv").parentNode.id) {
         document.getElementById("fooddiv").parentNode.removeChild(document.getElementById("fooddiv"));
-        var i = this.aSnake[this.aSnake.length - 1] + 1;
+        var i = this.aSnake[this.aSnake.length - 1] + 1; //取出数组的最后一个元素。
         var id = "div" + i;
         this.aSnake.push(i);
         var oCloneNode = document.getElementById("div2").cloneNode(false);
         oCloneNode.id = id;
-        document.getElementById(this.sPreParentId).appendChild(oCloneNode);
+        document.getElementById(this.sPreParentId).appendChild(oCloneNode); //吃掉食物之后长出来的身体。
         _this.fnMakeFood();
+        if (this.aSnake.length % 4 == 0) { //加速的方法，看数组里面的元素个数是否为4的倍数，是则加速。
+            this.vTimeInterval -= 40;
+        }
     }
 }
 
-fnAttribute.prototype.fnFollowDiv = function() {
+fnAttribute.prototype.fnFollowDiv = function() { //后长出来的身体的移动的函数。思路就是一直把后一个div放到起一个div的父节点里面。
     if (this.aSnake.length > 1) {
         for (var i = 1; i < this.aSnake.length; i++) {
             var oNowDiv = document.getElementById("div" + this.aSnake[i]);
@@ -190,6 +217,15 @@ fnAttribute.prototype.fnFollowDiv = function() {
             oNowDiv.parentNode.removeChild(oNowDiv);
             document.getElementById(this.sPreParentId).appendChild(oNowDiv);
             this.sPreParentId = oNowParentId;
+        }
+    }
+}
+
+fnAttribute.prototype.fnFailAlert = function() { //撞尾巴函数
+    for (var i = 4; i < this.aSnake.length; i++) {
+        if (this.sNewDivId == document.getElementById("div" + this.aSnake[i]).parentNode.id) {
+            alert("撞到尾巴啦");
+            window.location.reload();
         }
     }
 }
