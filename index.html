@@ -6,8 +6,52 @@
         <link rel="stylesheet" href="app/main.css">
     </head>
     <body>
+        <div id="signInandUp" class="">
+            <a onclick="fnSignUp()">注册</a>
+            <a onclick="fnSignIn()">登录</a>
+        </div>
+        <h1 id="totalScore">积分：</h1>
         <div id="div1" class="">
         </div>
+        <div id="signUp" class="">
+            <form class="">
+                <label for="username">账号：</label>
+                <input type="text" id="username">
+                <br>
+                <label for="password">密码：</label>
+                <input type="text" id="password">
+                <br>
+                <label for="repassword">确认密码：</label>
+                <input type="text" id="repassword">
+                <br>
+                <input type="submit" name="" value="提交">\
+                <input id="signUpNone" type="button" name="" value="取消">
+            </form>
+        </div>
+        <div id="signIn" class="">
+            <form class="">
+                <label for="username2">账号：</label>
+                <input type="text" id="username2">
+                <br>
+                <label for="password2">密码：</label>
+                <input type="text" id="password2">
+                <br>
+                <input type="submit" name="" value="登录">
+                <input id="signInNone" type="button" name="" value="取消">
+            </form>
+        </div>
         <script type="text/javascript" src="app_copy/main.js"></script>
+        <script type="text/javascript">
+        function fnSignUp() {
+            document.getElementById("signUp").style.display = "block";
+            document.getElementById("signUpNone").onclick = function() { document.getElementById("signUp").style.display = "none";}
+        }
+        function fnSignIn() {
+            document.getElementById("signIn").style.display = "block";
+            document.getElementById("signInNone").onclick = function() {
+                document.getElementById("signIn").style.display = "none";
+            }
+        }
+        </script>
     </body>
 </html>

@@ -22,6 +22,7 @@ function fnAttribute() { //构造函数
     this.startMove();
     this.keycode = null;
     this.sNewDivId = null;
+    this.score = null; //积分
 }
 
 fnAttribute.prototype.setBack = function() { //把区域分成一个一个的小方块。
@@ -29,7 +30,7 @@ fnAttribute.prototype.setBack = function() { //把区域分成一个一个的小
         for (var j = 0; j < 30; j++) {
             this.newDiv = document.createElement("div");
             this.newDiv.setAttribute("id", i + "r" + j + "c");
-            this.newDiv.setAttribute("style", "width:18px;height:18px;background:grey;position:absolute;left:" + (20 * j) + "px;top:" + (20 * i) + "px;border:solid 1px white;margin:0;z-index:-1;");
+            this.newDiv.setAttribute("style", "width:18px;height:18px;position:absolute;left:" + (20 * j) + "px;top:" + (20 * i) + "px;margin:0;z-index:-2;");
             document.getElementById("div1").appendChild(this.newDiv);
         }
     }
@@ -197,6 +198,9 @@ fnAttribute.prototype.fnMakeFood = function() {
 fnAttribute.prototype.fnEatFood = function() { //吃食物的函数，如果蛇头和食物的父div的id相同，则删除当前的食物。
     if (document.getElementById("div2").parentNode.id == document.getElementById("fooddiv").parentNode.id) {
         document.getElementById("fooddiv").parentNode.removeChild(document.getElementById("fooddiv"));
+        this.score += 100; //设置积分。
+        var oScore = document.getElementById("totalScore");
+        oScore.innerHTML = oScore.innerHTML.slice(0, 3) + this.score;
         var i = this.aSnake[this.aSnake.length - 1] + 1; //取出数组的最后一个元素。
         var id = "div" + i;
         this.aSnake.push(i);

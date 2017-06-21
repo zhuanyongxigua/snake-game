@@ -1,12 +1,29 @@
+body {
+    text-align: center;
+}
+
 #div1 {
     width: 600px;
     height: 600px;
-    border: solid 2px red;
     left: 50%;
     top: 50%;
     margin-left: -300px;
     margin-top: -300px;
     position: absolute;
+    background-image: url("../image/snakegamebackground.jpg");
+    z-index: -1;
+}
+
+#signInandUp {
+    float: right;
+}
+
+#signUp {
+    display: none;
+}
+
+#signIn {
+    display: none;
 }
 
 

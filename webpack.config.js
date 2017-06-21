@@ -11,9 +11,15 @@ module.exports = {
     },
     module: {
         loaders: [{
-            test: /\.css$/,
-            loader: 'style-loader!css-loader'
-        }]
+                test: /\.css$/,
+                loader: 'style-loader!css-loader'
+            },
+            {
+                test: /\.jpg$/,
+                loader: "url-loader?limit=5000&name=image/[hash:8].[name].[ext]"
+            }
+        ]
+
     },
     plugins: [new HtmlWebpackPlugin({
         template: path.resolve(__dirname, 'index.html'),
