@@ -10,7 +10,7 @@
             <a onclick="fnSignUp()">注册</a>
             <a onclick="fnSignIn()">登录</a>
         </div>
-        <h1 id="totalScore">积分：</h1>
+        <h1 id="totalScore">当前积分：</h1>
         <div id="div1" class="">
         </div>
         <div id="signUp" class="">
@@ -40,18 +40,20 @@
                 <input id="signInNone" type="button" name="" value="取消">
             </form>
         </div>
+        <div class="box">
+            <table id="tab" cellspacing="0" cellpadding="0">
+                <caption>AJAX请求数据并动态绑定到表格</caption>
+                <thead>
+                    <tr>
+                        <th id="thName" class="cursor">用户名</th>
+                        <th id='thScore' class="cursor">分数</th>
+                    </tr>
+                </thead>
+                <tbody id="tBody">
+                </tbody>
+            </table>
+        </div>
         <script type="text/javascript" src="app_copy/main.js"></script>
-        <script type="text/javascript">
-        function fnSignUp() {
-            document.getElementById("signUp").style.display = "block";
-            document.getElementById("signUpNone").onclick = function() { document.getElementById("signUp").style.display = "none";}
-        }
-        function fnSignIn() {
-            document.getElementById("signIn").style.display = "block";
-            document.getElementById("signInNone").onclick = function() {
-                document.getElementById("signIn").style.display = "none";
-            }
-        }
-        </script>
+        <script type="text/javascript" src="app_copy/otherFunction.js"></script>
     </body>
 </html>

@@ -1,5 +1,8 @@
 import './main.css';
+// var otherFunction = require('./otherFunction.js');
 var _this = null;
+// otherFunction.fnSignUp();
+// otherFunction.fnSignIn();
 window.onload = function() {
     var obj = new FnAttribute();
     document.onkeydown = function() {

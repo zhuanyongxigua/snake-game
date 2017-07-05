@@ -17,6 +17,14 @@ module.exports = {
             {
                 test: /\.jpg$/,
                 loader: "url-loader?limit=5000&name=image/[hash:8].[name].[ext]"
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader', //在webpack的module部分 的loaders里进行配置即可
+                query: {
+                    presets: ['es2015']
+                }
             }
         ]
 

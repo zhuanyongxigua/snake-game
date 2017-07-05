@@ -229,4 +229,3 @@ FnAttribute.prototype = {
         }
     }
 }
-console.log(FnAttribute.prototype.constructor);
