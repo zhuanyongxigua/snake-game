@@ -165,3 +165,28 @@ thScore.onclick = function() {
     //upOrder.call(thScore);
     upOrder.call(this);
 }
+
+//回到顶部动画
+var goLink = document.getElementById("goLink");
+window.onscroll = getDisplay;
+
+function getDisplay() {
+    var curTop = document.documentElement.scrollTop || document.body.scrollTop; //当前距顶的高度。
+    var curHeight = document.documentElement.clientHeight || document.body.clientHeight; //当前一个屏幕的高度。
+    goLink.style.display = curTop > curHeight / 10 ? "block" : "none";
+}
+goLink.onclick = function() {
+    this.style.display = "none";
+    window.onscroll = null;
+    var timer = window.setInterval(function() {
+        var curTop = document.documentElement.scrollTop || document.body.scrollTop;
+        if (curTop === 0) {
+            window.clearInterval(timer);
+            window.onscroll = getDisplay;
+            return;
+        }
+        curTop -= 50;
+        document.documentElement.scrollTop = curTop;
+        document.body.scrollTop = curTop;
+    }, 50);
+}
